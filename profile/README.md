@@ -332,38 +332,196 @@ The production Terraform profile is an architectural starting point, not a certi
 
 ## Run the ecosystem
 
-The fastest path is the deployment repository:
+Little Boy's Aegis is a **microservice architecture** with 10 repositories. This section walks you through cloning everything, setting up prerequisites, and running the full platform locally.
+
+### Prerequisites
+
+| Requirement | Minimum version | Purpose |
+|---|---|---|
+| [Git](https://git-scm.com/) | 2.30+ | Clone all repositories |
+| [Docker](https://docs.docker.com/get-docker/) | 24.0+ | Container runtime |
+| [Docker Compose](https://docs.docker.com/compose/) | 2.20+ (V2) | Multi-service orchestration |
+| RAM | 8 GB+ (16 GB recommended) | Kafka cluster + AI agents + databases |
+| Disk | 10 GB+ free | Images, volumes, and build cache |
+
+Optional: [Node.js](https://nodejs.org/) 18+ (for frontend dev), [Go](https://go.dev/) 1.21+ (for SOC backend dev), [Java](https://adoptium.net/) 17+ (for banking API dev), [Flutter](https://flutter.dev/) 3.x (for mobile app dev).
+
+### Step 1 — Clone all repositories
+
+Run the following script to clone every repository into a single workspace directory:
 
 ```bash
+# Create workspace and clone all repos
+mkdir -p aegis-workspace && cd aegis-workspace
+
+# Core platform
 git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-backend.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app.git
+
+# AI & Security layers
+git clone https://github.com/Little-Boy-s-Aegis/agent-layer-1.git
+git clone https://github.com/Little-Boy-s-Aegis/agent-layer-2.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-soar-engine.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox.git
+
+# SOC Dashboard
+git clone https://github.com/Little-Boy-s-Aegis/dashboard.git
+
+# Infrastructure as Code
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform.git
+```
+
+Or clone everything in one command:
+
+```bash
+mkdir -p aegis-workspace && cd aegis-workspace && \
+for repo in aegis-bank-deployment aegis-bank-backend aegis-bank-web-client aegis-bank-mobile-app agent-layer-1 agent-layer-2 aegis-soar-engine aegis-staging-sandbox dashboard aegis-bank-terraform; do \
+  git clone https://github.com/Little-Boy-s-Aegis/$repo.git; \
+done
+```
+
+### Repository map
+
+After cloning, your workspace will look like this:
+
+```
+aegis-workspace/
+  aegis-bank-deployment/     # Docker Compose, Helm, Kustomize, Nginx, Kafka, OPA, Vault
+  aegis-bank-backend/        # Spring Boot core banking REST API (Java)
+  aegis-bank-web-client/     # Next.js banking portal (TypeScript/React)
+  aegis-bank-mobile-app/     # Flutter mobile banking app (Dart)
+  agent-layer-1/             # AI Sensor Agents — EDR, WAF/UEBA, ATM/IAM (Python)
+  agent-layer-2/             # Meta Analyzer — correlation, verification, risk scoring (Python)
+  aegis-soar-engine/         # SOAR decision engine — playbooks, connectors, rollback (Python)
+  aegis-staging-sandbox/     # Staging simulation APIs for safe response testing
+  dashboard/                 # SOC Dashboard — Go backend + React frontend
+  aegis-bank-terraform/      # AWS Terraform modules (hackathon + production profiles)
+```
+
+### Step 2 — Quick start with Docker Compose
+
+The [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) repository is the **single entry point** that orchestrates all microservices. It pulls/builds all service images and wires them together.
+
+```bash
 cd aegis-bank-deployment
+
+# Copy environment template
 cp .env.example .env
+
+# Review and edit .env — set API keys, database passwords, etc.
+# At minimum, configure:
+#   - OPENAI_API_KEY or BEDROCK credentials (for AI agents)
+#   - Database passwords
+#   - JWT secrets
+
+# Build and start the full platform
 docker compose up --build -d
 ```
 
-Then open the Nginx gateway at `http://localhost/`. The deployment guide documents the banking portal, SOC dashboard, APIs, Kafka tooling, service profiles, and Kubernetes options.
-
 > [!IMPORTANT]
-> Review every value in `.env` before use. Default and example credentials are for isolated local development only. Do not expose the stack—or its simulated vulnerable modes—to an untrusted network.
+> Review every value in `.env` before use. Default and example credentials are for isolated local development only. Do not expose the stack — or its simulated vulnerable modes — to an untrusted network.
+
+### Step 3 — Access the platform
+
+Once all containers are healthy, access the services:
+
+| Service | URL | Description |
+|---|---|---|
+| Nginx Gateway | `http://localhost/` | Main entry point, routes to all services |
+| Banking Web Portal | `http://localhost/bank` | Customer-facing banking application |
+| SOC Dashboard | `http://localhost/soc` | Security Operations Center workspace |
+| Banking API | `http://localhost/api` | Spring Boot REST API (Swagger/OpenAPI) |
+| Kafka UI | `http://localhost/kafka-ui` | Kafka topic browser and consumer groups |
+
+> [!NOTE]
+> Exact ports and paths may vary depending on your `.env` configuration. Check the `docker-compose.yml` and Nginx config in `aegis-bank-deployment` for the definitive service mapping.
 
 ### What starts locally
 
-The deployment composes the customer web portal, Spring Boot banking API, Go SOC backend, React SOC frontend, PostgreSQL, Redis, Qdrant, a three-broker Kafka cluster, log collection and parsing, OPA, Vault, the SOAR engine, staging controls, and the Nginx gateway. Optional profiles and repository guides cover additional integrations.
+The deployment composes the following services:
+
+| Layer | Services |
+|---|---|
+| **Frontend** | Customer web portal (Next.js), SOC dashboard (React) |
+| **Backend** | Banking API (Spring Boot), SOC backend (Go) |
+| **AI Agents** | Layer 1 sensor agents, Layer 2 meta analyzer, SOAR engine |
+| **Data** | PostgreSQL, Redis, Qdrant (vector DB) |
+| **Event Backbone** | 3-node Kafka KRaft cluster, Fluent Bit, log parser |
+| **Security** | OPA (Open Policy Agent), Vault, staging sandbox |
+| **Gateway** | Nginx reverse proxy with security headers |
 
 ### Useful operating commands
 
 ```bash
-# Follow the platform logs
+# Follow all platform logs
 docker compose logs -f
 
-# Inspect the Kafka and parsing path
-docker compose logs -f kafka-1 kafka-2 kafka-3 fluent-bit log-parser
+# Watch specific layers
+docker compose logs -f kafka-1 kafka-2 kafka-3 fluent-bit log-parser    # Event pipeline
+docker compose logs -f agent-layer-1 agent-layer-2 soar-engine           # AI & SOAR
+docker compose logs -f bank-backend bank-web-client                      # Banking apps
+docker compose logs -f soc-backend soc-frontend                          # SOC Dashboard
+
+# Check service health
+docker compose ps
+
+# Restart a specific service
+docker compose restart agent-layer-1
 
 # Stop services without deleting persisted data
 docker compose down
+
+# Full reset — delete all volumes and rebuild
+docker compose down -v && docker compose up --build -d
 ```
 
-Use `docker compose down -v` only when you intentionally want to delete local database and event-stream volumes.
+### Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| Containers keep restarting | Check `docker compose logs <service>` for errors. Ensure `.env` is configured correctly. |
+| Kafka not ready | Kafka KRaft cluster needs ~30s to elect a leader. Wait and retry. |
+| AI agents failing | Verify API keys (OpenAI/Bedrock) are set in `.env`. |
+| Out of memory | Increase Docker memory to 8 GB+ in Docker Desktop settings. |
+| Port conflicts | Check if ports 80, 5432, 6379, 9092 are already in use. Adjust in `.env`. |
+
+### Kubernetes deployment
+
+For Kubernetes-based deployment, `aegis-bank-deployment` also includes:
+
+- **Kustomize** base + overlays for local clusters
+- **Helm** chart with configurable values for all services
+- **Kubernetes manifests** for production-like environments
+
+```bash
+# Kustomize (local overlay)
+kubectl apply -k aegis-bank-deployment/k8s/overlays/local
+
+# Helm
+helm install aegis aegis-bank-deployment/helm/aegis-platform -f values-local.yaml
+```
+
+### AWS cloud deployment
+
+For AWS deployment, use the [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform) repository:
+
+```bash
+cd aegis-bank-terraform
+
+# Hackathon profile — single AZ, ~$30-80/month
+terraform init
+terraform plan -var-file=profiles/hackathon.tfvars
+terraform apply -var-file=profiles/hackathon.tfvars
+
+# Production profile — multi-AZ, PrivateLink, full security stack
+terraform plan -var-file=profiles/production.tfvars
+terraform apply -var-file=profiles/production.tfvars
+```
+
+> [!WARNING]
+> The production Terraform profile is an architectural starting point, not a certification. Apply your own threat model, data residency rules, and banking regulations before deploying to production.
 
 ## Validation philosophy
 
