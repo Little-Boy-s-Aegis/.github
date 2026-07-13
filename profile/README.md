@@ -4,16 +4,97 @@
 
 ### An AI-native cyber defense platform for modern banking
 
+**1st Place Winner — [Shinhan Bank Future Lab's Track](https://futureslab.com.vn) (Financial Services) — [Agentic AI Build Week 2026](https://aabw.genaifund.ai)**
+
 From customer transactions to the SOC: observe, correlate, verify, decide, and respond—without surrendering control.
 
+[![1st Place](https://img.shields.io/badge/AABW_2026-1st_Place-FFD700?style=for-the-badge)](https://aabw.genaifund.ai)
+[![Shinhan Bank Future Lab](https://img.shields.io/badge/Track-Shinhan_Bank_Future_Lab-0046FF?style=for-the-badge)](https://futureslab.com.vn)
 [![Repositories](https://img.shields.io/badge/repositories-10-111827?style=for-the-badge&logo=github)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 [![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-E11D48?style=for-the-badge)](https://attack.mitre.org/)
 [![CAPEC](https://img.shields.io/badge/knowledge-CAPEC-7C3AED?style=for-the-badge)](https://capec.mitre.org/)
 [![Policy as Code](https://img.shields.io/badge/policy-OPA-14B8A6?style=for-the-badge&logo=openpolicyagent)](https://www.openpolicyagent.org/)
 
-[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 
 </div>
+
+---
+
+## About the Hackathon
+
+**Little Boy's Aegis** was built by **Team Little Boy** for the [Agentic AI Build Week (AABW) 2026](https://aabw.genaifund.ai) — Southeast Asia's largest on-site AI buildathon, organized by [GenAI Fund](https://genaifund.ai). The event brought together **2,000+ builders**, **10 enterprise partners**, and the full AI stack for five days in Ho Chi Minh City (July 8–12, 2026).
+
+Our team competed in the **Financial Services I** track, sponsored by [Shinhan Future's Lab](https://futureslab.com.vn), where we built an AI-native SOC platform for banking cybersecurity — and **won 1st place** in the track. ([Winning announcement on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7482425857790124032/))
+
+| Detail | Info |
+|---|---|
+| Event | [Agentic AI Build Week (AABW) 2026](https://aabw.genaifund.ai) |
+| Organizer | [GenAI Fund](https://genaifund.ai) |
+| Track | Financial Services I — [Shinhan Future's Lab](https://futureslab.com.vn) |
+| Result | 1st Place |
+| Location | Ho Chi Minh City, Vietnam |
+| Date | July 8–12, 2026 |
+| Submission Portal | [AABW Portal](https://aitalent.genaifund.ai/hackathon) |
+| Devpost | [agentic-ai-build-week-2026.devpost.com](https://agentic-ai-build-week-2026.devpost.com/) |
+| Announcement | [LinkedIn Post](https://www.linkedin.com/feed/update/urn:li:activity:7482425857790124032/) |
+
+---
+
+## The Team
+
+<table>
+  <tr>
+    <th>Member</th>
+    <th>Role</th>
+    <th>Key Contributions in Aegis</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/L1nkinPark"><b>h1eudayne</b></a>
+    </td>
+    <td>
+      <b>Team Lead</b><br/>
+      Full-Stack · System Design · System Architecture · DevOps · Cloud Engineer Lead
+    </td>
+    <td>
+      Designed the end-to-end Aegis system architecture and drew all system design / AWS architecture diagrams. Built the SOAR decision engine, Layer 2 orchestrator correlation & verification logic, and the complete AWS Terraform infrastructure (hackathon & production profiles). Set up CI/CD pipelines, Docker Compose orchestration, Kubernetes/Helm manifests, and the Kafka event backbone. Led full-stack development across the SOC dashboard (Go + React), Spring Boot banking API, and integrated the multi-layer AI agent pipeline.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/teikv"><b>teikv</b></a>
+    </td>
+    <td>
+      Supporting Developer · Pentest Support · Idea Presenter
+    </td>
+    <td>
+      Contributed to frontend and backend development across the banking web portal and mobile app. Assisted in penetration testing campaigns covering OWASP Top 10 vulnerability demonstrations (SQLi, XSS, IDOR, parameter tampering). Presented the Aegis concept, threat model, and defensive philosophy to stakeholders and judges. Helped shape the platform's security narrative and user-facing documentation.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/an1dee3301"><b>an1dee</b></a>
+    </td>
+    <td>
+      Supporting Developer · Pentest Support · Layer 2 Setup · Idea Presenter
+    </td>
+    <td>
+      Contributed to codebase development and assisted in penetration testing exercises. Set up Proof of Concept (PoC) exploits, OPA policy rules, and automated playbooks for the Layer 2 orchestrator—including correlation rules, response workflows, and policy-gated containment logic. Collaborated on ideation sessions and helped articulate the Aegis defense-in-depth strategy during presentations.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/habachcp6"><b>bachcp6</b></a>
+    </td>
+    <td>
+      <b>Lead Pentester</b> · Core Architecture · Pentest Strategy
+    </td>
+    <td>
+      Core Architecture: Engineered and developed the foundational Layer 1 and Layer 2 (L1/L2) infrastructure for the agent system. Security Assessment: Executed comprehensive penetration testing across the platform to identify and remediate vulnerabilities, ensuring robust security.
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -42,42 +123,13 @@ The result is a security platform designed around three convictions:
 
 ## How Aegis works
 
-```mermaid
-flowchart LR
-    subgraph Banking["Banking experience"]
-        Web["Web client"]
-        Mobile["Mobile app"]
-        API["Spring Boot banking API"]
-        Web --> API
-        Mobile --> API
-    end
+### System Design — Full Platform Overview
 
-    subgraph Telemetry["Telemetry and detection"]
-        Gateway["Nginx gateway"]
-        Kafka["Kafka event backbone"]
-        L1["Layer 1 specialist agents<br/>EDR · WAF/UEBA · ATM/IAM"]
-        Gateway --> Kafka
-        API --> Kafka
-        Kafka --> L1
-    end
+> The complete Aegis system design showing all four major layers: **Ingestion** (log collection via Fluentd & Kafka), **Layer 1 Sensor Agents** (in-depth AI analysis), **Layer 2 Orchestrator** (context correlation, decision & automated execution with HA cluster), and **Reporting & Notification** (feedback loop with the SOC). Includes data stores, integrations, OPA guardrails, audit & compliance, and time-bound action examples.
 
-    subgraph Decision["Verification and response"]
-        L2["Layer 2 orchestrator<br/>correlate · verify · score"]
-        OPA["OPA policy gates"]
-        SOAR["SOAR decision engine"]
-        Sandbox["Reversible staging sandbox"]
-        L1 --> L2
-        L2 --> SOAR
-        OPA --> SOAR
-        SOAR --> Sandbox
-    end
-
-    SOC["Real-time SOC dashboard"]
-    Gateway --> API
-    L2 --> SOC
-    SOAR --> SOC
-    Sandbox --> SOC
-```
+<div align="center">
+  <img src="01-system-design.png" alt="Aegis System Design — Full Platform Overview" width="100%"/>
+</div>
 
 ### The decision path
 
@@ -103,21 +155,66 @@ Layer 1 is deliberately unable to emit a final risk score, priority, response mo
 
 ### Incident lifecycle
 
-```mermaid
-stateDiagram-v2
-    [*] --> NEW: Finding received
-    NEW --> ANALYZED: Schema valid and correlated
-    ANALYZED --> MONITORED: Evidence is weak or unconfirmed
-    ANALYZED --> MITIGATED: Non-disruptive response completed
-    ANALYZED --> CONTAINED: Every automation gate passes
-    MONITORED --> ANALYZED: New evidence arrives
-    MITIGATED --> CLOSED: Analyst review and evidence preserved
-    CONTAINED --> CLOSED: Verification and rollback window complete
-    CONTAINED --> ROLLED_BACK: Safety check or operator decision
-    ROLLED_BACK --> CLOSED: State restored and audit finalized
-```
+| State | Transition | Condition |
+|---|---|---|
+| `[*]` → `NEW` | Finding received | A new finding arrives from Layer 1. |
+| `NEW` → `ANALYZED` | Schema valid and correlated | The finding passes schema validation and entity correlation. |
+| `ANALYZED` → `MONITORED` | Evidence is weak or unconfirmed | Insufficient evidence to act; moved to active monitoring. |
+| `ANALYZED` → `MITIGATED` | Non-disruptive response completed | SOC-safe actions (notify, enrich, ticket) are executed. |
+| `ANALYZED` → `CONTAINED` | Every automation gate passes | All 10 containment gates clear; scoped action is taken. |
+| `MONITORED` → `ANALYZED` | New evidence arrives | Re-evaluation when supporting evidence surfaces. |
+| `MITIGATED` → `CLOSED` | Analyst review and evidence preserved | Human analyst confirms resolution. |
+| `CONTAINED` → `CLOSED` | Verification and rollback window complete | Post-containment checks pass. |
+| `CONTAINED` → `ROLLED_BACK` | Safety check or operator decision | Containment reversed due to issue or analyst override. |
+| `ROLLED_BACK` → `CLOSED` | State restored and audit finalized | System restored and full audit trail recorded. |
 
 Redis maintains live incident and playbook state, while the audit path records transitions and execution outcomes for the SOC. Correlation uses a short sliding window and concrete entity links—such as account, user, host, IP, session, request, transaction, or object ID—to reduce duplicate incidents without merging unrelated activity.
+
+---
+
+## AWS Architecture
+
+Aegis provides two complete AWS architecture profiles—a **cost-optimized hackathon** deployment and a **production-grade enterprise** deployment—each with both logical and detailed views.
+
+### Production Architecture — Enterprise Grade
+
+#### Logical View
+
+> High-level production architecture showing all platform layers on AWS: Ingestion (Kinesis/MSK), Layer 1 AI Sensor Agents, Layer 2 Meta Analyzer (Decision Engine), Layer 3 Orchestration & Automation, Reporting & Notification, High Availability Orchestrator Cluster, full data stores, audit & compliance, security & protection, and observability & monitoring.
+
+<div align="center">
+  <img src="03-aws-production-logical.jpg" alt="AWS Production Architecture — Logical View" width="100%"/>
+</div>
+
+#### VPC Deep Dive
+
+> Detailed VPC-level production architecture with Multi-AZ deployment across two Availability Zones. Shows public/private/security/data subnet segmentation, ECS clusters with auto-scaling groups, RDS Multi-AZ synchronous replication, OpenSearch cross-AZ replication, orchestration layer with heartbeat & leader election, and complete security & protection stack (WAF, Shield, GuardDuty, Security Hub, Config).
+
+<div align="center">
+  <img src="02-aws-production-vpc-deep-dive.jpg" alt="AWS Production Architecture — VPC Deep Dive" width="100%"/>
+</div>
+
+---
+
+### Cost-Optimized Architecture — Hackathon
+
+#### Logical View
+
+> Simplified, serverless-first architecture designed for hackathon MVP: AWS Lambda preprocessing, S3 raw log storage, Bedrock & SageMaker for AI analysis, Step Functions for orchestration, and a lean stack with estimated monthly cost of **~$30–$80/month**. Easy to deploy in 1 day and extend to production.
+
+<div align="center">
+  <img src="05-aws-cost-optimized-logical.jpg" alt="AWS Cost-Optimized Architecture — Logical View" width="100%"/>
+</div>
+
+#### Deployment Architecture
+
+> Cost-optimized deployment with single AZ, serverless-first (Firehose + Lambda), ECS Fargate with right-sizing, RDS Single AZ, and OpenSearch Serverless. Estimated monthly cost of **~$110–$250/month** for low traffic. Includes full CI/CD pipeline with GitHub Actions, ECR, and ECS Fargate deployment.
+
+<div align="center">
+  <img src="04-aws-cost-optimized-deployment.jpg" alt="AWS Cost-Optimized Deployment Architecture" width="100%"/>
+</div>
+
+---
 
 ## The platform
 
@@ -140,24 +237,6 @@ Redis maintains live incident and playbook state, while the audit path records t
 | [`aegis-bank-mobile-app`](https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app) | Dart/Flutter mobile banking experience connected to the Aegis API. |
 | [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) | Complete local and Kubernetes orchestration: Docker Compose, Helm, Kustomize, Nginx, Kafka KRaft, Fluent Bit, OPA, Vault, Redis, Qdrant, and security tests. |
 | [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform) | Modular AWS infrastructure for cost-optimized hackathon and multi-AZ production profiles, including identity, encryption, observability, edge, data, and AI services. |
-
-### How the repositories fit together
-
-```mermaid
-flowchart TB
-    Apps["Customer channels<br/>web · mobile"] --> Backend["aegis-bank-backend"]
-    Backend --> Deploy["aegis-bank-deployment"]
-    Dashboard["dashboard"] --> Deploy
-    Sandbox["aegis-staging-sandbox"] --> Deploy
-    L1["agent-layer-1"] --> L2["agent-layer-2"]
-    L2 --> Engine["aegis-soar-engine"]
-    Engine --> Deploy
-    Engine --> Sandbox
-    Engine --> Dashboard
-    Terraform["aegis-bank-terraform"] -. provisions cloud foundation .-> Deploy
-```
-
-The two agent repositories define behavior and data contracts; the SOAR repository implements the decision runtime; the deployment repository assembles the full application and control plane. This separation allows prompts, schemas, runtime code, integrations, and infrastructure to evolve without collapsing into one privileged component.
 
 ## What makes the system different
 
@@ -333,8 +412,10 @@ Open an issue or pull request in the repository you want to improve. When propos
 
 <div align="center">
 
-**Little Boy's Aegis — intelligence at machine speed, control at human depth.**
+**Little Boy's Aegis — 1st Place, [Shinhan Bank Future Lab's Track](https://futureslab.com.vn) (Financial Services), [AABW 2026](https://aabw.genaifund.ai)**
 
-[All repositories](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+**Intelligence at machine speed, control at human depth.**
+
+[All repositories](https://github.com/orgs/Little-Boy-s-Aegis/repositories) | [AABW Event](https://aabw.genaifund.ai) | [GenAI Fund](https://genaifund.ai) | [Shinhan Future's Lab](https://futureslab.com.vn)
 
 </div>
