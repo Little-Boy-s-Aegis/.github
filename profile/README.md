@@ -25,7 +25,7 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 
 **Little Boy's Aegis** was built by **Team Little Boy** for the [Agentic AI Build Week (AABW) 2026](https://aabw.genaifund.ai) — Southeast Asia's largest on-site AI buildathon, organized by [GenAI Fund](https://genaifund.ai). The event brought together **2,000+ builders**, **10 enterprise partners**, and the full AI stack for five days in Ho Chi Minh City (July 8–12, 2026).
 
-Our team competed in the **Financial Services I** track, sponsored by [Shinhan Future's Lab](https://futureslab.com.vn), where we built an AI-native SOC platform for banking cybersecurity — and **won 1st place** in the track. ([Winning announcement on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7482425857790124032/))
+Our team competed in the **Financial Services I** track, sponsored by [Shinhan Future's Lab](https://futureslab.com.vn), where we built an AI-native SOC platform for banking cybersecurity — and **won 1st place** in the track. (Official results: [GenAI Fund LinkedIn](https://www.linkedin.com/posts/genai-fund_aabw2026-aabwxgaf-activity-7482359686189445120-FEhQ) · [Facebook](https://www.facebook.com/genaifund/posts/122236514156289079))
 
 | Detail | Info |
 |---|---|
@@ -37,7 +37,8 @@ Our team competed in the **Financial Services I** track, sponsored by [Shinhan F
 | Date | July 8–12, 2026 |
 | Submission Portal | [AABW Portal](https://aitalent.genaifund.ai/hackathon) |
 | Devpost | [agentic-ai-build-week-2026.devpost.com](https://agentic-ai-build-week-2026.devpost.com/) |
-| Announcement | [LinkedIn Post](https://www.linkedin.com/feed/update/urn:li:activity:7482425857790124032/) |
+| Official Results | [GenAI Fund — LinkedIn](https://www.linkedin.com/posts/genai-fund_aabw2026-aabwxgaf-activity-7482359686189445120-FEhQ) · [GenAI Fund — Facebook](https://www.facebook.com/genaifund/posts/122236514156289079) |
+| Team Announcement | [Team Lead — LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7482425857790124032/) |
 
 ---
 
