@@ -333,148 +333,162 @@ The production Terraform profile is an architectural starting point, not a certi
 
 ## Run the ecosystem
 
-Little Boy's Aegis is a **microservice architecture** with 10 repositories. This section walks you through cloning everything, setting up prerequisites, and running the full platform locally.
+Little Boy's Aegis is a **microservice architecture** spread across multiple repositories. The `docker-compose.yml` in `aegis-bank-deployment` builds each service from sibling directories using relative paths (`../BE`, `../FE_Web`, `../dashboard`, `../soar-engine`, etc.). This means **all repos must be cloned into specific directory names in the same parent folder**.
 
 ### Prerequisites
 
 | Requirement | Minimum version | Purpose |
 |---|---|---|
 | [Git](https://git-scm.com/) | 2.30+ | Clone all repositories |
-| [Docker](https://docs.docker.com/get-docker/) | 24.0+ | Container runtime |
-| [Docker Compose](https://docs.docker.com/compose/) | 2.20+ (V2) | Multi-service orchestration |
-| RAM | 8 GB+ (16 GB recommended) | Kafka cluster + AI agents + databases |
-| Disk | 10 GB+ free | Images, volumes, and build cache |
+| [Docker Desktop](https://docs.docker.com/get-docker/) | 24.0+ | Container runtime + Compose V2 |
+| RAM | **8 GB minimum** (16 GB recommended) | 3-node Kafka cluster + AI agents + databases |
+| Disk | 10 GB+ free | Docker images, volumes, and build cache |
 
-Optional: [Node.js](https://nodejs.org/) 18+ (for frontend dev), [Go](https://go.dev/) 1.21+ (for SOC backend dev), [Java](https://adoptium.net/) 17+ (for banking API dev), [Flutter](https://flutter.dev/) 3.x (for mobile app dev).
+### Step 1 -- Clone all repositories
 
-### Step 1 — Clone all repositories
+> [!IMPORTANT]
+> The `docker-compose.yml` uses **specific directory names** (`../BE`, `../FE_Web`, `../soar-engine`, etc.) that differ from the GitHub repo names. You **must** clone into the exact directory names shown below, or Docker Compose will fail with "path not found" errors.
 
-Run the following script to clone every repository into a single workspace directory:
+**Linux / macOS:**
 
 ```bash
-# Create workspace and clone all repos
 mkdir -p aegis-workspace && cd aegis-workspace
 
-# Core platform
+# Clone with correct directory names (matching docker-compose.yml paths)
 git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment.git
-git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-backend.git
-git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client.git
-git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app.git
-
-# AI & Security layers
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-backend.git       BE
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client.git     FE_Web
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app.git     FE_App
+git clone https://github.com/Little-Boy-s-Aegis/aegis-soar-engine.git         soar-engine
+git clone https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox.git     staging-sandbox
+git clone https://github.com/Little-Boy-s-Aegis/dashboard.git
 git clone https://github.com/Little-Boy-s-Aegis/agent-layer-1.git
 git clone https://github.com/Little-Boy-s-Aegis/agent-layer-2.git
-git clone https://github.com/Little-Boy-s-Aegis/aegis-soar-engine.git
-git clone https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox.git
+```
 
-# SOC Dashboard
+**Windows (PowerShell):**
+
+```powershell
+mkdir aegis-workspace; cd aegis-workspace
+
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment.git
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-backend.git       BE
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client.git     FE_Web
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app.git     FE_App
+git clone https://github.com/Little-Boy-s-Aegis/aegis-soar-engine.git         soar-engine
+git clone https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox.git     staging-sandbox
 git clone https://github.com/Little-Boy-s-Aegis/dashboard.git
-
-# Infrastructure as Code
-git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform.git
+git clone https://github.com/Little-Boy-s-Aegis/agent-layer-1.git
+git clone https://github.com/Little-Boy-s-Aegis/agent-layer-2.git
 ```
 
-Or clone everything in one command:
-
-```bash
-mkdir -p aegis-workspace && cd aegis-workspace && \
-for repo in aegis-bank-deployment aegis-bank-backend aegis-bank-web-client aegis-bank-mobile-app agent-layer-1 agent-layer-2 aegis-soar-engine aegis-staging-sandbox dashboard aegis-bank-terraform; do \
-  git clone https://github.com/Little-Boy-s-Aegis/$repo.git; \
-done
-```
-
-### Repository map
-
-After cloning, your workspace will look like this:
+After cloning, your directory **must** look exactly like this:
 
 ```
-aegis-workspace/
-  aegis-bank-deployment/     # Docker Compose, Helm, Kustomize, Nginx, Kafka, OPA, Vault
-  aegis-bank-backend/        # Spring Boot core banking REST API (Java)
-  aegis-bank-web-client/     # Next.js banking portal (TypeScript/React)
-  aegis-bank-mobile-app/     # Flutter mobile banking app (Dart)
-  agent-layer-1/             # AI Sensor Agents — EDR, WAF/UEBA, ATM/IAM (Python)
-  agent-layer-2/             # Meta Analyzer — correlation, verification, risk scoring (Python)
-  aegis-soar-engine/         # SOAR decision engine — playbooks, connectors, rollback (Python)
-  aegis-staging-sandbox/     # Staging simulation APIs for safe response testing
-  dashboard/                 # SOC Dashboard — Go backend + React frontend
-  aegis-bank-terraform/      # AWS Terraform modules (hackathon + production profiles)
+aegis-workspace/                       <-- you are here
+  aegis-bank-deployment/               <-- Docker Compose, Nginx, Kafka, OPA, Vault
+  BE/                                  <-- Spring Boot banking REST API (Java)
+  FE_Web/                              <-- Next.js banking portal (TypeScript/React)
+  FE_App/                              <-- Flutter mobile banking app (Dart)
+  soar-engine/                         <-- SOAR decision engine + action workers (Python)
+  staging-sandbox/                     <-- Staging simulation APIs
+  dashboard/                           <-- SOC Dashboard: Go backend + React frontend
+  agent-layer-1/                       <-- AI Sensor Agents: EDR, WAF/UEBA, ATM/IAM (Python)
+  agent-layer-2/                       <-- Meta Analyzer: correlation, risk scoring (Python)
 ```
 
-### Step 2 — Quick start with Docker Compose
+> [!NOTE]
+> `aegis-bank-terraform` is only needed for AWS cloud deployment, not for running locally.
 
-The [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) repository is the **single entry point** that orchestrates all microservices. It pulls/builds all service images and wires them together.
+### Step 2 -- Configure and start
 
 ```bash
 cd aegis-bank-deployment
 
-# Copy environment template
+# Copy environment template -- all defaults work for local dev
 cp .env.example .env
+```
 
-# Review and edit .env — set API keys, database passwords, etc.
-# At minimum, configure:
-#   - OPENAI_API_KEY or BEDROCK credentials (for AI agents)
-#   - Database passwords
-#   - JWT secrets
+**The only required edit** is your AI provider API key. Open `.env` and set **one** of these:
 
-# Build and start the full platform
+```bash
+# Option A: AWS Bedrock with Qwen (used in hackathon, default in .env.example)
+LLM_PROVIDER=bedrock
+BEDROCK_MODEL_ID=qwen.qwen3-coder-next
+BEDROCK_REGION=ap-southeast-2
+
+# Option B: OpenAI
+# LLM_PROVIDER=openai
+# OPENAI_API_KEY=sk-your-actual-api-key-here
+
+# Option C: Qwen direct
+# LLM_PROVIDER=qwen
+# QWEN_API_KEY=your-qwen-api-key
+```
+
+Everything else (database passwords, JWT secrets, Kafka config, ports) **already has working defaults** for local development. No further edits needed.
+
+Now build and start:
+
+```bash
+# Build and start all 22 containers
 docker compose up --build -d
 ```
 
-> [!IMPORTANT]
-> Review every value in `.env` before use. Default and example credentials are for isolated local development only. Do not expose the stack — or its simulated vulnerable modes — to an untrusted network.
+> [!WARNING]
+> The **first build takes 10--15 minutes** as Docker compiles Java (Spring Boot), Go (SOC backend), Python (AI agents, SOAR engine), and Node.js (Next.js, React) projects from source. Subsequent starts are much faster since images are cached.
 
-### Step 3 — Access the platform
+Services start in dependency order: **PostgreSQL, Redis, Qdrant** --> **Kafka cluster** (~30s for KRaft leader election) --> **backends** --> **AI agents and SOAR** --> **frontends** --> **Nginx gateway**.
 
-Once all containers are healthy, access the services:
+### Step 3 -- Access the platform
+
+Once all containers are healthy (`docker compose ps`), open your browser:
 
 | Service | URL | Description |
 |---|---|---|
-| Nginx Gateway | `http://localhost/` | Main entry point, routes to all services |
-| Banking Web Portal | `http://localhost/bank` | Customer-facing banking application |
-| SOC Dashboard | `http://localhost/soc` | Security Operations Center workspace |
-| Banking API | `http://localhost/api` | Spring Boot REST API (Swagger/OpenAPI) |
-| Kafka UI | `http://localhost/kafka-ui` | Kafka topic browser and consumer groups |
+| Banking Portal | [`http://localhost/`](http://localhost/) | Next.js customer-facing banking application |
+| SOC Dashboard | [`http://localhost/soc/`](http://localhost/soc/) | Security Operations Center workspace |
+| Banking API | [`http://localhost/api-bank/`](http://localhost/api-bank/) | Spring Boot REST API (strips prefix, proxies to backend) |
+| SOC Backend API | [`http://localhost/api/`](http://localhost/api/) | Go SOC backend API |
+| Kafdrop (Kafka UI) | [`http://localhost:9000/`](http://localhost:9000/) | Kafka topic browser (protected by HTTP Basic Auth) |
 
-> [!NOTE]
-> Exact ports and paths may vary depending on your `.env` configuration. Check the `docker-compose.yml` and Nginx config in `aegis-bank-deployment` for the definitive service mapping.
+All traffic on port 80 goes through **Nginx** which routes to internal services. Kafdrop runs on a **separate port 9000** with HTTP Basic Auth.
 
-### What starts locally
+### What starts locally (22 containers)
 
-The deployment composes the following services:
+| Layer | Services | Internal ports |
+|---|---|---|
+| **Gateway** | Nginx reverse proxy (port 80 + 9000) | 80, 9000 |
+| **Frontend** | Banking portal (Next.js), SOC dashboard (React) | 3000, 3001 |
+| **Backend** | Banking API (Spring Boot), SOC backend (Go) | 8080, 8082 |
+| **AI and SOAR** | SOAR orchestrator (active + standby), action workers (active + standby), vector DB init | 8092 |
+| **Data** | PostgreSQL 16, Redis 7, Qdrant (vector DB) | 5432, 6379, 6333 |
+| **Event Backbone** | 3-node Kafka KRaft cluster, Kafdrop UI, Fluent Bit, log parser, Kafka topic init | 9092--9094, 9000, 24224, 8088 |
+| **Security** | OPA, Vault (dev mode), Vault init | 8181, 8200 |
+| **Staging** | Staging sandbox (response simulation) | 8095 |
 
-| Layer | Services |
-|---|---|
-| **Frontend** | Customer web portal (Next.js), SOC dashboard (React) |
-| **Backend** | Banking API (Spring Boot), SOC backend (Go) |
-| **AI Agents** | Layer 1 sensor agents, Layer 2 meta analyzer, SOAR engine |
-| **Data** | PostgreSQL, Redis, Qdrant (vector DB) |
-| **Event Backbone** | 3-node Kafka KRaft cluster, Fluent Bit, log parser |
-| **Security** | OPA (Open Policy Agent), Vault, staging sandbox |
-| **Gateway** | Nginx reverse proxy with security headers |
-
-### Useful operating commands
+### Useful commands
 
 ```bash
 # Follow all platform logs
 docker compose logs -f
 
 # Watch specific layers
-docker compose logs -f kafka-1 kafka-2 kafka-3 fluent-bit log-parser    # Event pipeline
-docker compose logs -f agent-layer-1 agent-layer-2 soar-engine           # AI & SOAR
-docker compose logs -f bank-backend bank-web-client                      # Banking apps
-docker compose logs -f soc-backend soc-frontend                          # SOC Dashboard
+docker compose logs -f kafka-1 kafka-2 kafka-3 fluent-bit log-parser     # Event pipeline
+docker compose logs -f soar-orchestrator soar-action-worker               # SOAR engine
+docker compose logs -f be-backend fe-web                                  # Banking apps
+docker compose logs -f dashboard-backend dashboard-frontend               # SOC Dashboard
 
 # Check service health
 docker compose ps
 
 # Restart a specific service
-docker compose restart agent-layer-1
+docker compose restart soar-orchestrator
 
-# Stop services without deleting persisted data
+# Stop services (keep data volumes)
 docker compose down
 
-# Full reset — delete all volumes and rebuild
+# Full reset -- delete all volumes and rebuild from scratch
 docker compose down -v && docker compose up --build -d
 ```
 
@@ -482,19 +496,17 @@ docker compose down -v && docker compose up --build -d
 
 | Issue | Solution |
 |---|---|
-| Containers keep restarting | Check `docker compose logs <service>` for errors. Ensure `.env` is configured correctly. |
-| Kafka not ready | Kafka KRaft cluster needs ~30s to elect a leader. Wait and retry. |
-| AI agents failing | Verify API keys (OpenAI/Bedrock) are set in `.env`. |
-| Out of memory | Increase Docker memory to 8 GB+ in Docker Desktop settings. |
-| Port conflicts | Check if ports 80, 5432, 6379, 9092 are already in use. Adjust in `.env`. |
+| `path "../BE" not found` or similar | Clone repos with the **exact directory names** shown in Step 1. The docker-compose.yml expects `../BE`, not `../aegis-bank-backend`. |
+| Containers keep restarting | Run `docker compose logs <service>` to check errors. |
+| Kafka not ready | KRaft cluster needs ~30s to elect a leader. Check `docker compose logs kafka-1`. |
+| AI/SOAR agents return errors | Verify your LLM provider and API credentials in `.env`. |
+| Out of memory / Docker crashes | Increase Docker Desktop memory to **8 GB+** in Settings --> Resources. |
+| Port 80 already in use | Change `NGINX_PORT` in `.env` or stop the conflicting service. |
+| First build takes forever | Normal -- compiling 4 languages from source takes 10--15 min on first run. |
 
-### Kubernetes deployment
+### Kubernetes and AWS deployment
 
-For Kubernetes-based deployment, `aegis-bank-deployment` also includes:
-
-- **Kustomize** base + overlays for local clusters
-- **Helm** chart with configurable values for all services
-- **Kubernetes manifests** for production-like environments
+For Kubernetes-based deployment, `aegis-bank-deployment` also includes Helm charts and Kustomize overlays:
 
 ```bash
 # Kustomize (local overlay)
@@ -504,21 +516,12 @@ kubectl apply -k aegis-bank-deployment/k8s/overlays/local
 helm install aegis aegis-bank-deployment/helm/aegis-platform -f values-local.yaml
 ```
 
-### AWS cloud deployment
-
-For AWS deployment, use the [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform) repository:
+For AWS cloud deployment, clone and use [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform):
 
 ```bash
-cd aegis-bank-terraform
-
-# Hackathon profile — single AZ, ~$30-80/month
-terraform init
-terraform plan -var-file=profiles/hackathon.tfvars
-terraform apply -var-file=profiles/hackathon.tfvars
-
-# Production profile — multi-AZ, PrivateLink, full security stack
-terraform plan -var-file=profiles/production.tfvars
-terraform apply -var-file=profiles/production.tfvars
+git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform.git terraform
+cd terraform
+terraform init && terraform apply -var-file=profiles/hackathon.tfvars    # ~$30-80/month
 ```
 
 > [!WARNING]
