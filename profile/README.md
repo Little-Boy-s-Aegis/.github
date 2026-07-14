@@ -15,7 +15,7 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 [![CAPEC](https://img.shields.io/badge/knowledge-CAPEC-7C3AED?style=for-the-badge)](https://capec.mitre.org/)
 [![Policy as Code](https://img.shields.io/badge/policy-OPA-14B8A6?style=for-the-badge&logo=openpolicyagent)](https://www.openpolicyagent.org/)
 
-[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Repository map](#repository-map) · [Validation results](#validation-results) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 
 </div>
 
@@ -329,6 +329,23 @@ Connector availability does not imply permission to act. Each action still passe
 | Platform engineering | Docker Compose, Kubernetes, Helm, Kustomize, Terraform, GitHub Actions |
 | Threat knowledge | MITRE ATT&CK, CAPEC, CWE, deterministic risk calibration |
 
+## Repository map
+
+Little Boy's Aegis is split into focused repositories so each layer can be reviewed, tested, and deployed independently while still running as one local ecosystem.
+
+| Repository | Purpose | Primary stack |
+|---|---|---|
+| [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) | Local platform orchestration, Nginx gateway, Kafka, OPA, Vault, Kubernetes manifests, and Helm chart. | Docker Compose, Nginx, Kafka, OPA, Vault, Kubernetes, Helm |
+| [`aegis-bank-backend`](https://github.com/Little-Boy-s-Aegis/aegis-bank-backend) | Mock banking API, authentication, accounts, transfers, security toggles, and security-event publishing. | Java, Spring Boot, JPA/Hibernate, PostgreSQL/H2 |
+| [`aegis-bank-web-client`](https://github.com/Little-Boy-s-Aegis/aegis-bank-web-client) | Customer-facing web banking portal for login, dashboard, transfer, transaction history, and security controls. | Next.js, React, TypeScript |
+| [`aegis-bank-mobile-app`](https://github.com/Little-Boy-s-Aegis/aegis-bank-mobile-app) | Mobile banking client with offline demo mode and API-backed account/transfer flows. | Flutter, Dart |
+| [`dashboard`](https://github.com/Little-Boy-s-Aegis/dashboard) | SOC dashboard, incident workbench, response center, log explorer, agent management, and backend APIs. | Go, React, TypeScript |
+| [`aegis-soar-engine`](https://github.com/Little-Boy-s-Aegis/aegis-soar-engine) | SOAR decision engine, policy evaluation, playbook execution, connectors, audit logging, rollback, and safety gates. | Python, Redis, Qdrant |
+| [`agent-layer-1`](https://github.com/Little-Boy-s-Aegis/agent-layer-1) | Read-only specialist sensor agents for internal network/EDR, e-banking/API/WAF/UEBA, and ATM/IAM domains. | Python, structured JSON contracts |
+| [`agent-layer-2`](https://github.com/Little-Boy-s-Aegis/agent-layer-2) | Meta analyzer for entity correlation, independent verification, risk scoring, response selection, and schema-valid decisions. | Python, MITRE ATT&CK, CAPEC |
+| [`aegis-staging-sandbox`](https://github.com/Little-Boy-s-Aegis/aegis-staging-sandbox) | Safe target environment for response simulation and connector validation before touching real controls. | Python, Flask |
+| [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform) | AWS hackathon and production-reference infrastructure profiles. | Terraform, AWS |
+
 ## Deployment choices
 
 | Mode | Best for | Included approach |
@@ -340,6 +357,23 @@ Connector availability does not imply permission to act. Each action still passe
 | AWS production profile | Architecture study and hardened adaptation | Multi-AZ networking, separated tiers, encryption, audit, observability, and edge controls. |
 
 The production Terraform profile is an architectural starting point, not a certification. Organizations must apply their own threat model, data residency rules, banking regulations, identity model, key-management policy, disaster-recovery objectives, and change controls.
+
+## Validation results
+
+Aegis is validated as a security engineering system, not only as a set of services that boot. Public tests cover local behavior and safety contracts; a separate July 2026 source-assisted web/API plus AWS read-only posture review was used to triage hardening work without publishing sensitive evidence in this profile README.
+
+| Validation area | What was checked | Result and status |
+|---|---|---|
+| Local 100-case adversarial run | Authentication, authorization, JWT handling, input validation, XSS probes, HTTP method handling, malformed requests, SSRF-style probes, resilience, and gateway behavior against `localhost`. | Produced a dev-facing hardening backlog: 43 pass, 4 warn, 53 fail. Most failures were controlled by gateway/API routing instability (`502`) rather than confirmed exploit paths, so the recommended next step is to stabilize routing and rerun authenticated checks. |
+| SOAR and policy safety | Policy evaluation, playbook routing, action-worker dry runs, rollback behavior, rate limits, connector boundaries, secret handling, notifications, and audit integrity. | Covered by focused unit tests and safety checks in the SOAR engine. These tests support the core claim that response automation must pass policy, scope, execution, and audit gates. |
+| SOC dashboard behavior | Login flow, response center workflows, dashboard workbench interactions, and frontend component behavior. | Covered by React/Vitest-style component tests and Go backend handler tests. |
+| Load and ingestion baseline | Dashboard read load, SOAR ingestion stress, mixed read/write storms, and baseline latency scenarios. | k6 scenarios and result artifacts exist for local performance validation. These are baseline engineering checks, not production capacity claims. |
+| Source and IaC review | Banking web/API source, SOC source, deployment config, Terraform profiles, cloud logging/detection posture, IAM/network posture, and AWS K8s/AD discovery across enabled regions. | 24 findings were triaged into a hardening backlog. The AWS K8s/AD evidence audit recorded 9/9 true positives and 0 false positives for that review set. |
+| Negative evidence from cloud review | EKS/Kubernetes objects, AWS Directory Service, Managed AD, AD Connector, EC2 Windows/domain-controller candidates, public AD ports, and public Kubernetes control-plane ports. | No live EKS/AD objects or public K8s/AD control-plane exposure were identified in the reviewed AWS regions. Source/IaC review also did not find active EKS or AWS Directory Service definitions. |
+
+The combined security review intentionally separates confirmed evidence from assumptions. Items such as secret handling, lab-only vulnerable modes, transport configuration, IAM scoping, detection coverage, and default-network hygiene are treated as hardening backlog unless a retest proves closure.
+
+Known coverage gaps remain: active authenticated browser/DAST testing, two-user authorization boundary tests, container image scanning, Prowler/ScoutSuite-style cloud posture scans, and deeper per-principal IAM analysis should be run before any production adaptation.
 
 ## Run the ecosystem
 
@@ -520,7 +554,7 @@ For Kubernetes-based deployment, `aegis-bank-deployment` also includes Helm char
 
 ```bash
 # Kustomize (local overlay)
-kubectl apply -k aegis-bank-deployment/k8s/overlays/local
+kubectl apply -k aegis-bank-deployment/kubernetes/overlays/local
 
 # Helm
 helm install aegis aegis-bank-deployment/helm/aegis-platform -f values-local.yaml
@@ -531,7 +565,7 @@ For AWS cloud deployment, clone and use [`aegis-bank-terraform`](https://github.
 ```bash
 git clone https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform.git terraform
 cd terraform
-terraform init && terraform apply -var-file=profiles/hackathon.tfvars    # ~$30-80/month
+terraform init && terraform apply -var-file=environments/hackathon/terraform.tfvars    # ~$30-80/month
 ```
 
 > [!WARNING]
