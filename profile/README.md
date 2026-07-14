@@ -196,8 +196,8 @@ Aegis provides two complete AWS architecture profiles—a **cost-optimized hacka
 > Detailed VPC-level production architecture with Multi-AZ deployment across two Availability Zones. Shows public/private/security/data subnet segmentation, ECS clusters with auto-scaling groups, RDS Multi-AZ synchronous replication, OpenSearch cross-AZ replication, orchestration layer with heartbeat & leader election, and complete security & protection stack (WAF, Shield, GuardDuty, Security Hub, Config).
 
 <div align="center">
-  <a href="02-aws-production-vpc-deep-dive.jpg">
-    <img src="02-aws-production-vpc-deep-dive.jpg" alt="AWS Production Architecture — VPC Deep Dive" width="100%"/>
+  <a href="02-aws-production-vpc-deep-dive-official.png">
+    <img src="02-aws-production-vpc-deep-dive-official.png" alt="AWS Production Architecture — VPC Deep Dive" width="100%"/>
   </a>
 </div>
 
