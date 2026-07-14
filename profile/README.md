@@ -498,6 +498,38 @@ Once all containers are healthy (`docker compose ps`), open your browser:
 
 All traffic on port 80 goes through **Nginx** which routes to internal services. Kafdrop runs on a **separate port 9000** with HTTP Basic Auth.
 
+#### Banking portal login
+
+Open [`http://localhost/login`](http://localhost/login) (or open [`http://localhost/`](http://localhost/) and let it redirect), then use one of the seeded demo accounts:
+
+| User | Username | Password | Use for |
+|---|---|---|---|
+| Alice Smith | `alice` | `password123` | Customer dashboard, transfers, transaction history, attack/defense demos |
+| Bob Jones | `bob` | `password123` | Second customer account for transfer, IDOR/BOLA, and stored-XSS scenarios |
+| Administrator | `admin` | `admin123` | Admin/security-control workflows |
+
+#### SOC dashboard login
+
+Open [`http://localhost/soc/`](http://localhost/soc/). The SOC uses a two-step operator login:
+
+1. Enter operator UID `10001`.
+2. Click **Request Login Token**.
+3. Read the generated SHA-256 token from the SOC backend container:
+
+```bash
+docker exec aegis-dashboard-backend cat /tmp/otp.txt
+```
+
+If you are running an older image that writes the OTP file in the container working directory, use:
+
+```bash
+docker exec aegis-dashboard-backend cat otp.txt
+```
+
+4. Copy the token after `-->`, paste it into the SOC login form, then click **Verify & Login**.
+
+The SOC token is generated on demand, expires after a short window, and is consumed after a successful login.
+
 ### What starts locally (22 containers)
 
 | Layer | Services | Internal ports |
