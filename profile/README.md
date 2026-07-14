@@ -129,8 +129,8 @@ The result is a security platform designed around three convictions:
 > The complete Aegis system design showing all four major layers: **Ingestion** (log collection via Fluentd & Kafka), **Layer 1 Sensor Agents** (in-depth AI analysis), **Layer 2 Orchestrator** (context correlation, decision & automated execution with HA cluster), and **Reporting & Notification** (feedback loop with the SOC). Includes data stores, integrations, OPA guardrails, audit & compliance, and time-bound action examples.
 
 <div align="center">
-  <a href="01-system-design.png">
-    <img src="01-system-design.png" alt="Aegis System Design — Full Platform Overview" width="100%"/>
+  <a href="01-system-design-aegis-ha.png">
+    <img src="01-system-design-aegis-ha.png" alt="Aegis System Design — Full Platform Overview" width="100%"/>
   </a>
 </div>
 
