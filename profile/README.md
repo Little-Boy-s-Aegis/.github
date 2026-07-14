@@ -384,9 +384,95 @@ Little Boy's Aegis is a **microservice architecture** spread across multiple rep
 | Requirement | Minimum version | Purpose |
 |---|---|---|
 | [Git](https://git-scm.com/) | 2.30+ | Clone all repositories |
-| [Docker Desktop](https://docs.docker.com/get-docker/) | 24.0+ | Container runtime + Compose V2 |
+| [WSL 2](https://learn.microsoft.com/windows/wsl/install) | Windows only | Linux backend used by Docker Desktop |
+| [Docker Desktop](https://docs.docker.com/get-docker/) | 24.0+ | Container runtime + Compose V2 with WSL 2 backend |
 | RAM | **8 GB minimum** (16 GB recommended) | 3-node Kafka cluster + AI agents + databases |
 | Disk | 10 GB+ free | Docker images, volumes, and build cache |
+
+### Step 0 -- Install Docker, WSL, and Git
+
+If you already have **Git**, **Docker Desktop**, and **WSL 2** working, skip to Step 1.
+
+#### Windows 10/11 setup
+
+Use **PowerShell** for the project commands in this README. WSL is required because Docker Desktop uses it internally, but you do not need to run the project from the Ubuntu terminal.
+
+1. Open **PowerShell as Administrator**:
+
+```powershell
+wsl --install -d Ubuntu
+```
+
+Restart your computer if Windows asks. After restart, open **Ubuntu** once from the Start menu and create a username/password if prompted.
+
+If WSL was already installed before, run:
+
+```powershell
+wsl --update
+wsl --set-default-version 2
+```
+
+2. Install **Git for Windows**:
+
+Download and install Git from [git-scm.com](https://git-scm.com/download/win). The default installer options are fine.
+
+3. Install **Docker Desktop**:
+
+Download and install Docker Desktop from [docs.docker.com/get-docker](https://docs.docker.com/get-docker/). During setup, keep **Use WSL 2 instead of Hyper-V** enabled if the installer shows it.
+
+4. Start Docker Desktop:
+
+Open Docker Desktop and wait until it says **Docker Desktop is running**. Then check these settings:
+
+| Docker Desktop setting | Value |
+|---|---|
+| Settings -> General | Enable **Use the WSL 2 based engine** |
+| Settings -> Resources -> WSL Integration | Enable integration for **Ubuntu** |
+| Settings -> Resources -> Advanced | Give Docker at least **8 GB memory** if your machine has enough RAM |
+
+5. Verify everything:
+
+```powershell
+wsl --list --verbose
+git --version
+docker --version
+docker compose version
+docker run hello-world
+```
+
+Expected result:
+
+- `wsl --list --verbose` shows Ubuntu with `VERSION 2`.
+- `git --version` prints a Git version.
+- `docker compose version` prints a Compose V2 version.
+- `docker run hello-world` downloads a small test image and exits successfully.
+
+#### macOS setup
+
+Install [Git](https://git-scm.com/download/mac) and [Docker Desktop for Mac](https://docs.docker.com/get-docker/), then open Docker Desktop and wait until it is running.
+
+Verify:
+
+```bash
+git --version
+docker --version
+docker compose version
+docker run hello-world
+```
+
+#### Linux setup
+
+Install Git, Docker Engine, and Docker Compose Plugin using your distro package manager. On Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install -y git ca-certificates curl
+curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker "$USER"
+newgrp docker
+docker compose version
+docker run hello-world
+```
 
 ### Step 1 -- Clone all repositories
 
@@ -446,11 +532,27 @@ aegis-workspace/                       <-- you are here
 
 ### Step 2 -- Configure and start
 
+Make sure **Docker Desktop is running** before this step.
+
+**Linux / macOS:**
+
 ```bash
 cd aegis-bank-deployment
 
 # Copy environment template -- all defaults work for local dev
 cp .env.example .env
+```
+
+**Windows (PowerShell):**
+
+```powershell
+cd aegis-bank-deployment
+
+# Copy environment template -- all defaults work for local dev
+Copy-Item .env.example .env
+
+# Open the file in Notepad
+notepad .env
 ```
 
 **The only required edit** is your AI provider API key. Open `.env` and set **one** of these:
@@ -574,6 +676,11 @@ docker compose down -v && docker compose up --build -d
 |---|---|
 | `path "../BE" not found` or similar | Clone repos with the **exact directory names** shown in Step 1. The docker-compose.yml expects `../BE`, not `../aegis-bank-backend`. |
 | Containers keep restarting | Run `docker compose logs <service>` to check errors. |
+| `docker` command not found | Install Docker Desktop, reopen PowerShell/Terminal, then run `docker --version`. |
+| `Cannot connect to the Docker daemon` | Open Docker Desktop and wait until it says **Docker Desktop is running**. |
+| `docker compose` is not recognized | Update Docker Desktop. Use `docker compose`, not the older `docker-compose`. |
+| WSL shows `VERSION 1` | Run `wsl --set-default-version 2`, then restart Docker Desktop. |
+| Docker Desktop WSL error | Run `wsl --update`, reboot Windows, then start Docker Desktop again. |
 | Kafka not ready | KRaft cluster needs ~30s to elect a leader. Check `docker compose logs kafka-1`. |
 | AI/SOAR agents return errors | Verify your LLM provider and API credentials in `.env`. |
 | Out of memory / Docker crashes | Increase Docker Desktop memory to **8 GB+** in Settings --> Resources. |
