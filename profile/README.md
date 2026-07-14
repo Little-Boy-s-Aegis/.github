@@ -129,7 +129,9 @@ The result is a security platform designed around three convictions:
 > The complete Aegis system design showing all four major layers: **Ingestion** (log collection via Fluentd & Kafka), **Layer 1 Sensor Agents** (in-depth AI analysis), **Layer 2 Orchestrator** (context correlation, decision & automated execution with HA cluster), and **Reporting & Notification** (feedback loop with the SOC). Includes data stores, integrations, OPA guardrails, audit & compliance, and time-bound action examples.
 
 <div align="center">
-  <img src="01-system-design.png" alt="Aegis System Design — Full Platform Overview" width="100%"/>
+  <a href="01-system-design.png">
+    <img src="01-system-design.png" alt="Aegis System Design — Full Platform Overview" width="100%"/>
+  </a>
 </div>
 
 ### The decision path
@@ -184,7 +186,9 @@ Aegis provides two complete AWS architecture profiles—a **cost-optimized hacka
 > High-level production architecture showing all platform layers on AWS: Ingestion (Kinesis/MSK), Layer 1 AI Sensor Agents, Layer 2 Meta Analyzer (Decision Engine), Layer 3 Orchestration & Automation, Reporting & Notification, High Availability Orchestrator Cluster, full data stores, audit & compliance, security & protection, and observability & monitoring.
 
 <div align="center">
-  <img src="03-aws-production-logical.jpg" alt="AWS Production Architecture — Logical View" width="100%"/>
+  <a href="03-aws-production-logical.jpg">
+    <img src="03-aws-production-logical.jpg" alt="AWS Production Architecture — Logical View" width="100%"/>
+  </a>
 </div>
 
 #### VPC Deep Dive
@@ -192,7 +196,9 @@ Aegis provides two complete AWS architecture profiles—a **cost-optimized hacka
 > Detailed VPC-level production architecture with Multi-AZ deployment across two Availability Zones. Shows public/private/security/data subnet segmentation, ECS clusters with auto-scaling groups, RDS Multi-AZ synchronous replication, OpenSearch cross-AZ replication, orchestration layer with heartbeat & leader election, and complete security & protection stack (WAF, Shield, GuardDuty, Security Hub, Config).
 
 <div align="center">
-  <img src="02-aws-production-vpc-deep-dive.jpg" alt="AWS Production Architecture — VPC Deep Dive" width="100%"/>
+  <a href="02-aws-production-vpc-deep-dive.jpg">
+    <img src="02-aws-production-vpc-deep-dive.jpg" alt="AWS Production Architecture — VPC Deep Dive" width="100%"/>
+  </a>
 </div>
 
 ---
@@ -204,7 +210,9 @@ Aegis provides two complete AWS architecture profiles—a **cost-optimized hacka
 > Simplified, serverless-first architecture designed for hackathon MVP: AWS Lambda preprocessing, S3 raw log storage, Bedrock & SageMaker for AI analysis, Step Functions for orchestration, and a lean stack with estimated monthly cost of **~$30–$80/month**. Easy to deploy in 1 day and extend to production.
 
 <div align="center">
-  <img src="05-aws-cost-optimized-logical.jpg" alt="AWS Cost-Optimized Architecture — Logical View" width="100%"/>
+  <a href="05-aws-cost-optimized-logical.jpg">
+    <img src="05-aws-cost-optimized-logical.jpg" alt="AWS Cost-Optimized Architecture — Logical View" width="100%"/>
+  </a>
 </div>
 
 #### Deployment Architecture
@@ -212,7 +220,9 @@ Aegis provides two complete AWS architecture profiles—a **cost-optimized hacka
 > Cost-optimized deployment with single AZ, serverless-first (Firehose + Lambda), ECS Fargate with right-sizing, RDS Single AZ, and OpenSearch Serverless. Estimated monthly cost of **~$110–$250/month** for low traffic. Includes full CI/CD pipeline with GitHub Actions, ECR, and ECS Fargate deployment.
 
 <div align="center">
-  <img src="04-aws-cost-optimized-deployment.jpg" alt="AWS Cost-Optimized Deployment Architecture" width="100%"/>
+  <a href="04-aws-cost-optimized-deployment.jpg">
+    <img src="04-aws-cost-optimized-deployment.jpg" alt="AWS Cost-Optimized Deployment Architecture" width="100%"/>
+  </a>
 </div>
 
 ---
