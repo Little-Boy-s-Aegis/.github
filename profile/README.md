@@ -11,11 +11,14 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 [![1st Place](https://img.shields.io/badge/AABW_2026-1st_Place-FFD700?style=for-the-badge)](https://aabw.genaifund.ai)
 [![Shinhan Bank Future Lab](https://img.shields.io/badge/Track-Shinhan_Bank_Future_Lab-0046FF?style=for-the-badge)](https://futureslab.com.vn)
 [![Repositories](https://img.shields.io/badge/repositories-10-111827?style=for-the-badge&logo=github)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-0F766E?style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/.github/blob/main/LICENSE)
+[![Open Source](https://img.shields.io/badge/open%20source-yes-22C55E?style=for-the-badge&logo=opensourceinitiative)](#open-source)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-2563EB?style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/.github/blob/main/CONTRIBUTING.md)
 [![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-E11D48?style=for-the-badge)](https://attack.mitre.org/)
 [![CAPEC](https://img.shields.io/badge/knowledge-CAPEC-7C3AED?style=for-the-badge)](https://capec.mitre.org/)
 [![Policy as Code](https://img.shields.io/badge/policy-OPA-14B8A6?style=for-the-badge&logo=openpolicyagent)](https://www.openpolicyagent.org/)
 
-[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Repository map](#repository-map) · [Validation results](#validation-results) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+[Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Repository map](#repository-map) · [Open source](#open-source) · [Validation results](#validation-results) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 
 </div>
 
@@ -742,6 +745,21 @@ Little Boy's Aegis is a research, education, and security-simulation project—n
 
 The project intentionally includes attack simulation and configurable vulnerable behaviors for defensive evaluation. Keep those modes isolated, use synthetic data, rotate every example credential, and never connect a lab control adapter to production infrastructure.
 
+## Open source
+
+Little Boy's Aegis is open source for defensive security research, education, and security engineering experimentation. Contributions are welcome across detection logic, response playbooks, SOC workflows, banking abuse cases, deployment paths, documentation, and hardening work.
+
+| Resource | What it provides |
+|---|---|
+| [Apache License 2.0](https://github.com/Little-Boy-s-Aegis/.github/blob/main/LICENSE) | Permissive open-source license for this organization profile and community files. Each source repository should also carry its own `LICENSE` file so the license is included when cloned, packaged, or downloaded. |
+| [Contributing Guide](https://github.com/Little-Boy-s-Aegis/.github/blob/main/CONTRIBUTING.md) | How to choose the right repository, open useful issues, submit pull requests, and keep security research safe. |
+| [Code of Conduct](https://github.com/Little-Boy-s-Aegis/.github/blob/main/CODE_OF_CONDUCT.md) | Community standards for respectful and responsible collaboration. |
+| [Security Policy](https://github.com/Little-Boy-s-Aegis/.github/blob/main/SECURITY.md) | How to report vulnerabilities privately and how to run safe authorized research. |
+| [Governance](https://github.com/Little-Boy-s-Aegis/.github/blob/main/GOVERNANCE.md) | Maintainer roles, decision process, and safety expectations for high-impact changes. |
+| [Support](https://github.com/Little-Boy-s-Aegis/.github/blob/main/SUPPORT.md) | Where to ask for help and what is outside the support scope. |
+
+This `.github` repository also provides default issue and pull request templates for the organization. Security vulnerabilities should not be reported in public issues; follow the security policy instead.
+
 ## Explore and contribute
 
 Start with [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) to experience the complete system, or enter through the repository that matches your craft:
@@ -752,7 +770,7 @@ Start with [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis
 - SOC experience: [`dashboard`](https://github.com/Little-Boy-s-Aegis/dashboard)
 - Platform engineering: [`aegis-bank-deployment`](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment) and [`aegis-bank-terraform`](https://github.com/Little-Boy-s-Aegis/aegis-bank-terraform)
 
-Open an issue or pull request in the repository you want to improve. When proposing response automation, include its evidence requirements, authorization policy, blast-radius limit, audit fields, and rollback path.
+Open an issue or pull request in the repository you want to improve. When proposing response automation, include its evidence requirements, authorization policy, blast-radius limit, audit fields, and rollback path. For contributor guidelines, security reporting, and community standards, start with the [open-source resources](#open-source).
 
 ---
 
@@ -762,6 +780,6 @@ Open an issue or pull request in the repository you want to improve. When propos
 
 **Intelligence at machine speed, control at human depth.**
 
-[All repositories](https://github.com/orgs/Little-Boy-s-Aegis/repositories) | [AABW Event](https://aabw.genaifund.ai) | [GenAI Fund](https://genaifund.ai) | [Shinhan Future's Lab](https://futureslab.com.vn)
+[All repositories](https://github.com/orgs/Little-Boy-s-Aegis/repositories) | [Open source guide](#open-source) | [AABW Event](https://aabw.genaifund.ai) | [GenAI Fund](https://genaifund.ai) | [Shinhan Future's Lab](https://futureslab.com.vn)
 
 </div>

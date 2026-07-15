@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible bug or broken workflow
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Little Boy's Aegis. Do not include secrets, real customer data, or vulnerability exploit details in public issues.
+  - type: input
+    id: repository
+    attributes:
+      label: Repository or component
+      description: Which repository, service, or module is affected?
+      placeholder: "dashboard / aegis-soar-engine / agent-layer-2 / ..."
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include commands, configuration, or screenshots when useful. Remove secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, runtime versions, Docker/Kubernetes/Terraform mode, commit SHA, and relevant logs.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety checklist
+      options:
+        - label: I removed secrets, tokens, private keys, customer data, and unauthorized exploit details.
+          required: true
