@@ -92,7 +92,7 @@ Our team competed in the **Financial Services I** track, sponsored by [Shinhan F
       <b>Core Architecture</b> · Security Assessment · Pentest Strategy
     </td>
     <td>
-      <b>Core Architecture:</b> Designed and authored the complete Layer 1/Layer 2 agent architecture — including system prompts, CAPEC/ATT&amp;CK threat matrices, detection schemas, risk scoring models, and incident response playbooks.<br/><br/>
+      <b>Core Architecture:</b> Designed and authored the complete Layer 1/Layer 2 agent architecture — including system prompts, CAPEC/ATT&amp;CK threat matrices, detection schemas, risk scoring models, and incident response playbooks.<br/>
       <b>Security Assessment:</b> Led comprehensive penetration testing initiatives across the platform to identify and remediate vulnerabilities, ensuring robust security.
     </td>
   </tr>
