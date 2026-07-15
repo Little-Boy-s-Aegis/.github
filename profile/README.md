@@ -89,10 +89,11 @@ Our team competed in the **Financial Services I** track, sponsored by [Shinhan F
       <a href="https://github.com/habachcp6"><b>bachcp6</b></a>
     </td>
     <td>
-      <b>Lead Pentester</b> · Core Architecture · Pentest Strategy
+      <b>Core Architecture</b> · Security Assessment · Pentest Strategy
     </td>
     <td>
-      Core Architecture: Engineered and developed the foundational Layer 1 and Layer 2 (L1/L2) infrastructure for the agent system. Security Assessment: Executed comprehensive penetration testing across the platform to identify and remediate vulnerabilities, ensuring robust security.
+      <b>Core Architecture:</b> Designed and authored the complete Layer 1/Layer 2 agent architecture — including system prompts, CAPEC/ATT&amp;CK threat matrices, detection schemas, risk scoring models, and incident response playbooks.<br/><br/>
+      <b>Security Assessment:</b> Led comprehensive penetration testing initiatives across the platform to identify and remediate vulnerabilities, ensuring robust security.
     </td>
   </tr>
 </table>
