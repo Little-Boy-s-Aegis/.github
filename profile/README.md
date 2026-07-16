@@ -21,6 +21,7 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 [![Total Stars](https://img.shields.io/github/stars/Little-Boy-s-Aegis/aegis-bank-deployment?style=for-the-badge&color=F59E0B&logo=github&label=Deployment%20Stars)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment/stargazers)
 [![Total Views](https://visitor-badge.laobi.icu/badge?page_id=Little-Boy-s-Aegis.profile&title=views&style=for-the-badge&color=22C55E)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 [![Total Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/clone-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
+[![Unique Cloners](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/uniques-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
 
 [Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Repository map](#repository-map) · [Open source](#open-source) · [Validation results](#validation-results) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 
