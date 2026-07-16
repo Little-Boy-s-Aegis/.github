@@ -18,7 +18,7 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 [![CAPEC](https://img.shields.io/badge/knowledge-CAPEC-7C3AED?style=for-the-badge)](https://capec.mitre.org/)
 [![Policy as Code](https://img.shields.io/badge/policy-OPA-14B8A6?style=for-the-badge&logo=openpolicyagent)](https://www.openpolicyagent.org/)
 <br/>
-[![Total Stars](https://img.shields.io/github/stars/Little-Boy-s-Aegis/aegis-bank-deployment?style=for-the-badge&color=F59E0B&logo=github&label=Deployment%20Stars)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment/stargazers)
+[![Total Stars](https://img.shields.io/github/stars/Little-Boy-s-Aegis?style=for-the-badge&color=F59E0B&logo=github&label=total%20stars)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 [![Total Views](https://komarev.com/ghpvc/?username=Little-Boy-s-Aegis&color=22c55e&style=for-the-badge&label=views)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 [![Total Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/clone-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
 [![Unique Cloners](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/uniques-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
