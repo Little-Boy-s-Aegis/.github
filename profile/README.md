@@ -20,11 +20,11 @@ From customer transactions to the SOC: observe, correlate, verify, decide, and r
 [![CAPEC](https://img.shields.io/badge/knowledge-CAPEC-7C3AED?style=for-the-badge)](https://capec.mitre.org/)
 [![Policy as Code](https://img.shields.io/badge/policy-OPA-14B8A6?style=for-the-badge&logo=openpolicyagent)](https://www.openpolicyagent.org/)
 <br/>
-[![Total Stars](https://img.shields.io/github/stars/Little-Boy-s-Aegis?style=for-the-badge&color=F59E0B&logo=github&label=total%20stars)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
+[![Total Stars](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/org-stars-badge.json)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 [![Total Views](https://komarev.com/ghpvc/?username=Little-Boy-s-Aegis&color=22c55e&style=for-the-badge&label=views)](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
-[![Total Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/clone-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
-[![Unique Cloners](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Little-Boy-s-Aegis/aegis-bank-deployment/main/uniques-badge.json&style=for-the-badge)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
-[![Followers](https://img.shields.io/github/followers/Little-Boy-s-Aegis?style=for-the-badge&color=0984e3&label=followers)](https://github.com/Little-Boy-s-Aegis)
+[![Total Clones](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/clone-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
+[![Unique Cloners](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/uniques-badge.json)](https://github.com/Little-Boy-s-Aegis/aegis-bank-deployment)
+[![Followers](https://badgen.net/https/cdn.jsdelivr.net/gh/Little-Boy-s-Aegis/aegis-bank-deployment@main/org-followers-badge.json)](https://github.com/Little-Boy-s-Aegis)
 
 [Explore the platform](#the-platform) · [See the architecture](#how-aegis-works) · [Meet the team](#the-team) · [Repository map](#repository-map) · [Open source](#open-source) · [Validation results](#validation-results) · [Run it locally](#run-the-ecosystem) · [Browse every repository](https://github.com/orgs/Little-Boy-s-Aegis/repositories)
 
