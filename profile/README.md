@@ -4,6 +4,8 @@
 
 ### An AI-native cyber defense platform for modern banking
 
+> **Aegis** (also known as **Little Boy's Aegis**) is an enterprise-grade cybersecurity product developed and owned by **Little Boy's**.
+
 **1st Place Winner — [Shinhan Bank Future Lab's Track](https://futureslab.com.vn) (Financial Services) — [Agentic AI Build Week 2026](https://aabw.genaifund.ai)**
 
 From customer transactions to the SOC: observe, correlate, verify, decide, and respond—without surrendering control.
